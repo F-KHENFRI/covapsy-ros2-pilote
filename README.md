@@ -1,11 +1,8 @@
 # CoVAPSy : votre voiture autonome en ROS 2
 
-Cette semaine, votre équipe programme **le cerveau d'une petite voiture autonome** (échelle 1/10). Ce cerveau est un programme ROS 2, le nœud **`pilote`**. Il regarde la piste avec ses capteurs et décide, dix fois par seconde, à quelle vitesse rouler et de combien tourner les roues.
+Votre équipe programme **le cerveau d'une petite voiture autonome** (échelle 1/10). Ce cerveau est un programme ROS 2, le nœud **`pilote`**. Il regarde la piste avec ses capteurs et décide, dix fois par seconde, à quelle vitesse rouler et de combien tourner les roues.
 
-Vous avez deux objectifs :
-
-1. **apprendre ROS 2** sur un vrai système : nœuds, topics, messages, paramètres, launch, services, tf2 et les outils `ros2` ;
-2. **rendre votre pilote le plus rapide possible**, puis le faire courir contre les autres équipes en fin de semaine.
+Votre objectif : **rendre votre pilote le plus rapide possible**, puis le faire courir contre les autres équipes en fin de semaine.
 
 Bonne nouvelle : le pilote fourni **fonctionne déjà**. Il fait le tour de la piste, mais à vitesse constante (1 m/s), comme un débutant prudent. À vous de lui apprendre à aller vite. Nous ne vous donnons pas la solution : c'est tout l'intérêt du défi.
 
@@ -13,34 +10,20 @@ Bonne nouvelle : le pilote fourni **fonctionne déjà**. Il fait le tour de la p
 
 **Sommaire**
 
-1. [Le projet en un coup d'œil](#1-le-projet-en-un-coup-dœil)
-2. [Installer le projet (une seule fois)](#2-installer-le-projet-une-seule-fois)
-3. [Premier lancement (10 minutes)](#3-premier-lancement-10-minutes)
-4. [Comprendre ce qui tourne](#4-comprendre-ce-qui-tourne)
-5. [Votre code](#5-votre-code)
-6. [Travailler au quotidien](#6-travailler-au-quotidien)
-7. [Exercices ROS 2](#7-exercices-ros-2)
-8. [Le défi vitesse](#8-le-défi-vitesse)
-9. [Le jour de la course](#9-le-jour-de-la-course)
-10. [Ça ne marche pas ?](#10-ça-ne-marche-pas-)
-11. [Petit glossaire](#11-petit-glossaire)
+1. [Installer le projet (une seule fois)](#1-installer-le-projet-une-seule-fois)
+2. [Premier lancement](#2-premier-lancement)
+3. [Comprendre ce qui tourne](#3-comprendre-ce-qui-tourne)
+4. [Votre code](#4-votre-code)
+5. [Travailler au quotidien](#5-travailler-au-quotidien)
+6. [Exercices ROS 2](#6-exercices-ros-2)
+7. [Le défi vitesse](#7-le-défi-vitesse)
+8. [Le jour de la course](#8-le-jour-de-la-course)
+9. [Ça ne marche pas ?](#9-ça-ne-marche-pas-)
+10. [Petit glossaire](#10-petit-glossaire)
 
 ---
 
-## 1. Le projet en un coup d'œil
-
-```mermaid
-flowchart LR
-    A["Début de semaine<br/>installer, lancer,<br/>lire le code"] --> B["Toute la semaine<br/>exercices ROS 2<br/>+ pilote plus rapide"]
-    B --> C["Chaque jour<br/>covapsy chrono<br/>(votre score)"]
-    C --> B
-    B --> D["Fin de semaine<br/>la course contre<br/>les autres équipes"]
-```
-
-- **Pendant la semaine**, tout tourne sur votre PC : un simulateur affiche la piste et la voiture, et votre nœud la conduit.
-- **Le jour de la course**, le simulateur tourne sur le PC de l'enseignant. Votre nœud, lui, reste sur votre PC et conduit votre voiture à distance. C'est **le même code**, sans rien changer.
-
-## 2. Installer le projet (une seule fois)
+## 1. Installer le projet (une seule fois)
 
 Comptez environ 30 minutes. Il vous faut :
 
@@ -67,7 +50,7 @@ Votre école passe par un proxy ? Avant la première construction, copiez ses ce
 
 **Quand vous connaissez votre numéro d'équipe**, remplissez `student_ws/equipe.yaml` : `numero`, `nom` et `domaine` (10 + numéro, donné par l'enseignant). Ouvrez ensuite un **nouveau terminal** pour que le changement soit pris en compte.
 
-## 3. Premier lancement (10 minutes)
+## 2. Premier lancement
 
 Suivez ces étapes dans l'ordre. À chaque fois, vérifiez que vous voyez bien le résultat attendu.
 
@@ -97,7 +80,7 @@ Astuce : chaque commande `covapsy` affiche la vraie commande ROS 2 qu'elle lance
 | pointillés | la ligne d'arrivée |
 | texte sous la piste | temps, tours, dernier et meilleur tour, vitesse, nombre de chocs |
 
-## 4. Comprendre ce qui tourne
+## 3. Comprendre ce qui tourne
 
 ### Les nœuds et les topics
 
@@ -184,7 +167,7 @@ ros2 service call /perception/sens_circuit covapsy_interfaces/srv/SensCircuit "{
 
 Le service fait la moyenne de ce qu'il voit sur environ une seconde, car une seule image prise dans un virage serré peut tromper. Pour voir un contresens : `covapsy sim ovale couleur_droite:=rouge`, puis posez la même question. En course, la même commande fonctionne : le service est relayé jusqu'à votre PC.
 
-## 5. Votre code
+## 4. Votre code
 
 ```
 student_ws/
@@ -223,7 +206,7 @@ Le pilote fourni fait trois choses simples :
 - **Non**, si vous modifiez seulement `pilote.py` ou `pilote.yaml` : relancez simplement `covapsy sim`.
 - **Oui**, avec `covapsy compiler` puis un nouveau terminal, si vous ajoutez un fichier, un exécutable dans `setup.py` ou un paquet.
 
-## 6. Travailler au quotidien
+## 5. Travailler au quotidien
 
 ### Le cycle de travail
 
@@ -265,7 +248,7 @@ flowchart LR
 
 Pour rviz2, ajoutez toujours `--ros-args -p use_sim_time:=true` : le simulateur a sa propre horloge.
 
-## 7. Exercices ROS 2
+## 6. Exercices ROS 2
 
 Lancez `covapsy sim ovale`, puis faites ces exercices dans un 2e terminal. Ils sont rangés du plus simple au plus avancé.
 
@@ -312,7 +295,7 @@ def on_sens(self, futur):
 
 N'utilisez **jamais** un appel bloquant (`call`) dans un callback : votre nœud ne traiterait plus rien pendant l'attente, et l'appel pourrait même ne jamais se terminer.
 
-## 8. Le défi vitesse
+## 7. Le défi vitesse
 
 Votre mission : rendre votre pilote **le plus rapide possible, sans percuter**. La méthode, c'est à vous de la trouver ; voici tout ce qu'il faut pour chercher.
 
@@ -397,21 +380,8 @@ Pour vérifier une idée, publiez la valeur qui vous intéresse sur un topic de 
 
 Un pilote rapide mais fragile perd la course. Visez **rapide et fiable**.
 
-### Un parcours possible pour la semaine
 
-Adaptez-le au rythme de votre enseignant.
-
-```mermaid
-flowchart TB
-    E1["<b>1. Prise en main</b><br/>ROS 2 : node, topic, echo, hz<br/>Pilote : score de base,<br/>meilleure vitesse constante"]
-    E2["<b>2. Topics et messages</b><br/>ROS 2 : topic de débogage, rqt_plot, /imu, /odom<br/>Pilote : où perd-on du temps ?"]
-    E3["<b>3. Paramètres et launch</b><br/>ROS 2 : vos paramètres, fichiers launch, YAML<br/>Pilote : vitesse variable"]
-    E4["<b>4. Services, tf2, rviz2</b><br/>ROS 2 : client SensCircuit, repères, marqueurs<br/>Pilote : trajectoire, trafic (duel)"]
-    E5["<b>5. Course</b><br/>ROS 2 : mode distant, domaines, passerelle<br/>Pilote : chrono sans abandon, puis la course"]
-    E1 --> E2 --> E3 --> E4 --> E5
-```
-
-## 9. Le jour de la course
+## 8. Le jour de la course
 
 Le jour J, votre nœud reste sur votre PC. Le simulateur, l'arbitre et les autres voitures tournent sur le PC de l'enseignant. Une **passerelle** fait le lien et ne laisse passer que ce dont votre pilote a besoin.
 
@@ -462,7 +432,7 @@ Votre page équipe affiche la manche, le sens, la couleur de la bordure de droit
 
 Une voiture retirée ne gêne pas les autres. Elle revient à la manche suivante.
 
-## 10. Ça ne marche pas ?
+## 9. Ça ne marche pas ?
 
 Pas de panique, voici les problèmes les plus fréquents.
 
@@ -480,7 +450,7 @@ Pas de panique, voici les problèmes les plus fréquents.
 | rviz2 n'affiche rien | avez-vous mis `use_sim_time:=true` ? Le *Fixed Frame* est-il bien `car1/laser` ou `car1/odom` ? |
 | « Reopen in Container » échoue (certificat) | copiez les certificats du proxy dans `.devcontainer/certificats/`, puis *Rebuild Container* |
 
-## 11. Petit glossaire
+## 10. Petit glossaire
 
 | Mot | Ce que ça veut dire |
 | --- | --- |
