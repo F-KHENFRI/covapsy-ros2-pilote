@@ -1,0 +1,12 @@
+# =====================================================================================
+#  CONFIGURATION DE VOTRE ÉQUIPE — le seul fichier de réglage à remplir
+# =====================================================================================
+numero: 1                 # numéro donné par l'enseignant (1, 2, 3, 4...)
+nom: equipe1              # nom affiché dans le classement (sans espace)
+domaine: 11               # ROS_DOMAIN_ID de l'équipe (donné par l'enseignant : 10 + numéro)
+
+# local   : simulateur Python sur votre PC (développement, essais)
+# distant : votre pilote conduit la voiture du simulateur de l'enseignant (course)
+mode: local
+
+circuit: ovale            # circuit de « covapsy sim » (liste : covapsy circuits)

@@ -1,0 +1,15 @@
+# Paramètres du nœud « pilote » (chargés par les launch de covapsy_student_bringup).
+# Modifiables en marche :  ros2 param set /pilote vitesse 1.5
+# Pour garder un réglage : reportez-le ici (puis relancez).
+# « /**/pilote » : s'applique au nœud pilote quel que soit son namespace (/pilote, /car1/pilote).
+/**/pilote:
+  ros__parameters:
+    vitesse: 1.0              # m/s, CONSTANTE  <- AMÉLIORATION 1
+    distance_securite: 1.0    # m, anti-collision droit devant
+    k_direction: 1.0
+    k_murs: 0.8
+    distance_murs: 0.8        # m
+    champ_deg: 90.0           # degrés
+    portee: 4.0               # m
+    lissage: 15               # points
+    vitesse_recul: 0.5        # m/s

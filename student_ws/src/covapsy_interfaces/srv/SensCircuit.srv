@@ -1,0 +1,12 @@
+# Service « perception/sens_circuit », rendu par le simulateur Python (caméra simulée) ou,
+# sous Webots, par wall_color_detector (vraie caméra) : la voiture roule-t-elle dans
+# le bon sens ? Vous donnez les couleurs des bordures DANS LE BON SENS, par exemple
+#   droite vert, gauche rouge   (ou l'inverse, selon le circuit annoncé par l'enseignant)
+# Le nœud compare avec ce que voit la caméra (moyenne sur ~1 s).
+string couleur_droite   # « vert » ou « rouge »
+string couleur_gauche   # l'autre couleur
+---
+bool success            # false : requête invalide ou aucune image récente
+int8 sens               # 1 = bon sens, -1 = contresens, 0 = indécis (bordures peu visibles)
+float32 score           # > 0 : bon sens ; < 0 : contresens (-2 .. 2)
+string message

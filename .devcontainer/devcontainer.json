@@ -1,0 +1,36 @@
+// Conteneur ÉQUIPE (étudiants) : workspace ROS 2 léger, simulateur Python, votre nœud pilote.
+// VS Code : « Dev Containers: Reopen in Container » puis choisir « CoVAPSy — équipe ».
+// Tout terminal s'ouvre dans student_ws avec ROS 2, le workspace et ROS_DOMAIN_ID chargés.
+{
+	"name": "CoVAPSy — équipe",
+	// Image : .devcontainer/Dockerfile (base estadrone2020/covapsy-jazzy:2026.1).
+	// Proxy d'école : certificats .crt dans .devcontainer/certificats/ (facultatif).
+	"build": {
+		"context": ".",
+		"dockerfile": "Dockerfile"
+	},
+	"runArgs": [
+		"--env", "DISPLAY=${localEnv:DISPLAY}",
+		"--volume", "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+		// réseau de l'hôte : nécessaire pour le mode distant (découverte DDS sur le réseau)
+		"--network=host",
+		"--privileged"
+	],
+	"containerEnv": { "COVAPSY_STUDENT_WS": "${containerWorkspaceFolder}/student_ws" },
+	"postCreateCommand": "bash student_ws/installer.sh",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.cwd": "${containerWorkspaceFolder}/student_ws",
+				"python.analysis.extraPaths": [
+					"/opt/ros/jazzy/lib/python3.12/site-packages",
+					"${containerWorkspaceFolder}/student_ws/src/covapsy_pilote",
+					"${containerWorkspaceFolder}/student_ws/src/covapsy_simple_sim"
+				],
+				"files.exclude": { "**/__pycache__": true, "student_ws/build": true,
+					"student_ws/log": true, "student_ws/install": true }
+			},
+			"extensions": ["ms-python.python"]
+		}
+	}
+}

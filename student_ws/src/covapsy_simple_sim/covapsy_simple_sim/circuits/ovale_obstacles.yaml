@@ -1,0 +1,16 @@
+# Ovale avec un obstacle fixe (homologation : évitement) et un obstacle mobile.
+nom: ovale_obstacles
+description: Ovale de 1 m, un obstacle fixe sur la ligne droite du haut, un obstacle mobile en bas.
+resolution: 0.02
+forme: {type: ovale, longueur_droite: 4.0, rayon: 1.2}
+largeur: 1.0
+obstacles:                    # rectangles fixes {x, y, yaw, longueur, largeur}
+  - {x: 0.0, y: 1.40, yaw: 0.0, longueur: 0.45, largeur: 0.20}
+obstacles_mobiles:            # va-et-vient entre (x0, y0) et (x1, y1)
+  - {x0: 1.5, y0: -1.55, x1: 1.5, y1: -0.85, periode: 6.0, longueur: 0.20, largeur: 0.20}
+grille:                       # 2 x 2 sur la ligne droite du bas (sens anti-horaire, vers +x)
+  - {x: -1.0, y: -1.0, yaw: 0.0}
+  - {x: -1.0, y: -1.4, yaw: 0.0}
+  - {x: -1.7, y: -1.0, yaw: 0.0}
+  - {x: -1.7, y: -1.4, yaw: 0.0}
+ligne_arrivee: [[-0.5, -1.7], [-0.5, -0.7]]

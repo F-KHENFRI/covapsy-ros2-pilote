@@ -1,0 +1,31 @@
+# Infrastructure commune à toutes les voitures (perception, état de course, sécurité).
+# Utilisée par le simulateur Python, Webots et le serveur enseignant.  NE PAS MODIFIER.
+# Clés « /**/nœud » : valables dans tous les namespaces (car1..car4) ET sans namespace.
+# (une clé « nœud: » seule ne s'applique qu'à un nœud SANS namespace)
+/**:
+  ros__parameters:
+    use_sim_time: true
+
+/**/scan_processor:
+  ros__parameters:
+    danger_distance: 0.5
+
+/**/race_manager:
+  ros__parameters:
+    d_block: 0.25
+    t_block: 1.0
+    d_rear_clear: 0.20           # TP : 0.30 ; 0.20 évite qu'une voiture en travers d'un
+                                 # passage étroit reste bloquée (arrêt d'urgence arrière : 0.10)
+    d_clear: 0.6
+    t_reverse_max: 2.0
+    use_ultrasound: true
+
+/**/safety_watchdog:
+  ros__parameters:
+    cmd_timeout: 0.3
+    scan_timeout: 0.3
+    d_emergency: 0.15
+    d_emergency_rear: 0.10
+    v_abs: 3.0
+    max_steering_angle: 0.35
+    use_ultrasound: true

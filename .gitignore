@@ -1,0 +1,8 @@
+*_ws/build/
+*_ws/install/
+*_ws/log/
+__pycache__/
+*.pyc
+.devcontainer/certificats/*.crt
+# historique personnel des chronos (covapsy chrono)
+student_ws/chronos.csv

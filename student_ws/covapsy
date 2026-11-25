@@ -1,0 +1,79 @@
+#!/bin/bash
+# =====================================================================================
+#  covapsy : raccourcis de l'équipe. Chaque commande affiche la commande ROS 2 qu'elle
+#  lance : apprenez-les, elles marchent aussi sans ce script.        covapsy aide
+# =====================================================================================
+set -e
+WS="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+
+charger() {
+    set +u
+    # shellcheck disable=SC1091
+    source "$WS/setup_equipe.bash" > /dev/null
+}
+
+montrer() { echo "\$ $*"; "$@"; }
+
+lire() {   # lire <clé> : valeur dans equipe.yaml
+    python3 -c "import yaml;print(yaml.safe_load(open('$WS/equipe.yaml')).get('$1',''))"
+}
+
+aide() {
+    cat <<EOF
+covapsy — commandes de l'équipe
+
+  DÉVELOPPER (simulateur sur votre PC)
+    covapsy compiler            colcon build (à refaire après ajout de fichiers ou de paquets)
+    covapsy sim [circuit]       simulateur + infrastructure + votre nœud pilote (fenêtre)
+    covapsy circuits            circuits disponibles
+    covapsy regler <param> <valeur>   ros2 param set /pilote ... (pendant « covapsy sim »)
+
+  DÉFI VITESSE
+    covapsy chrono [--note "..."]     chrono officiel : 3 tours x 3 circuits -> SCORE
+    covapsy duel [circuit] [lent|moyen|rapide]   votre pilote contre 3 adversaires
+    covapsy historique                vos chronos précédents
+
+  COURSE SUR LE SERVEUR DE L'ENSEIGNANT
+    covapsy course              votre nœud pilote seul (mode distant)
+    covapsy pret | depart | arret     services /course/pret, /course/depart, /course/arret
+
+  DIAGNOSTIC
+    covapsy diag                domaine ROS, topics reçus
+
+  Fichier à développer : src/covapsy_pilote/covapsy_pilote/pilote.py
+  Réglages du pilote    : src/covapsy_pilote/config/pilote.yaml
+  Réglages de l'équipe  : equipe.yaml
+EOF
+}
+
+cmd="${1:-aide}"; shift || true
+case "$cmd" in
+  aide|-h|--help) aide ;;
+  compiler)
+    charger; cd "$WS" && montrer colcon build --symlink-install
+    echo "OK. Nouveau paquet ou 1re compilation : source $WS/setup_equipe.bash" ;;
+  sim)
+    charger; c="${1:-$(lire circuit)}"; shift || true
+    montrer ros2 launch covapsy_student_bringup pilote.launch.py mode:=local circuit:="$c" "$@" ;;
+  circuits)
+    charger; ls "$(ros2 pkg prefix covapsy_simple_sim)/share/covapsy_simple_sim/circuits" \
+        | sed -n 's/\.yaml$//p' | sed 's/^/  /' ;;
+  regler)
+    charger; montrer ros2 param set /pilote "${1:?nom du paramètre}" "${2:?valeur}" ;;
+  chrono|duel|historique)
+    charger; cd "$WS"; python3 -m covapsy_simple_sim.defi_ros "$cmd" "$@" ;;
+  course)
+    charger; montrer ros2 launch covapsy_student_bringup pilote.launch.py mode:=distant "$@" ;;
+  pret|depart|arret)
+    charger; montrer ros2 service call "/course/$cmd" std_srvs/srv/Trigger ;;
+  diag)
+    charger
+    echo "ROS_DOMAIN_ID : ${ROS_DOMAIN_ID:-0} (equipe.yaml : $(lire domaine)), mode : $(lire mode)"
+    echo "workspace compilé : $([ -f "$WS/install/setup.bash" ] && echo oui || echo 'NON -> covapsy compiler')"
+    echo "\$ ros2 topic list"; timeout 8 ros2 topic list 2> /dev/null | sed 's/^/    /' || true
+    for t in /scan /race/state /clock; do
+      if timeout 6 ros2 topic echo "$t" --once > /dev/null 2>&1; then echo "  $t : reçu";
+      else echo "  $t : RIEN (simulateur ou serveur lancé ? bon ROS_DOMAIN_ID ?)"; fi
+    done ;;
+  *) echo "commande inconnue : $cmd"; aide; exit 1 ;;
+esac

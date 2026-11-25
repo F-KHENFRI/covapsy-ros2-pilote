@@ -1,0 +1,10 @@
+{
+    // Nouveau terminal = dossier du workspace de l'équipe (spécification §19.2).
+    // Le Dev Container « enseignant » remplace cette valeur par teacher_ws.
+    "terminal.integrated.cwd": "${workspaceFolder}/student_ws",
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/build": true,
+        "**/log": true
+    }
+}

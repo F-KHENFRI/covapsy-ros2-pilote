@@ -1,0 +1,21 @@
+# Circuit technique : épingle à cheveux et virages serrés (rayon 0,45 m).
+nom: epingle
+description: Circuit de 0,9 m de large avec une épingle à 180° ; teste le braquage et la marche arrière.
+resolution: 0.02
+forme:
+  type: polygone
+  rayon: 0.45
+  coins: [[-3.0, -2.0], [3.0, -2.0], [3.0, 2.0], [0.5, 2.0], [0.5, 0.0], [-0.5, 0.0],
+          [-0.5, 2.0], [-3.0, 2.0]]
+largeur: 0.9
+grille:                       # file indienne (piste de 0,9 m), toutes DERRIÈRE la ligne
+  - {x: -1.0, y: -2.0, yaw: 0.0}
+  - {x: -1.5, y: -2.0, yaw: 0.0}
+  - {x: -2.0, y: -2.0, yaw: 0.0}
+  - {x: -2.5, y: -2.0, yaw: 0.0}
+grille_inverse:               # sens inverse (vers -x)
+  - {x: 0.0, y: -2.0, yaw: 3.1416}
+  - {x: 0.5, y: -2.0, yaw: 3.1416}
+  - {x: 1.0, y: -2.0, yaw: 3.1416}
+  - {x: 1.5, y: -2.0, yaw: 3.1416}
+ligne_arrivee: [[-0.5, -2.45], [-0.5, -1.55]]
