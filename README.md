@@ -466,4 +466,4 @@ Pas de panique, voici les problèmes les plus fréquents.
 | **tf2, repère** | la position des repères les uns par rapport aux autres (`car1/odom → car1/base_link → car1/laser`) |
 | **temps simulé** (`use_sim_time`) | les nœuds suivent l'horloge du simulateur (`/clock`), pas celle du PC |
 
-Bonne semaine, et bonne course !
+
